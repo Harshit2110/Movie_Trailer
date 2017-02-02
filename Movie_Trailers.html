@@ -1,0 +1,296 @@
+
+<head>
+    <meta charset="utf-8">
+    <title>Movie_Trailers</title>
+
+    <!-- Bootstrap 3 -->
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    
+    <style type="text/css" media="screen">
+        body {
+            background-image: url("assets/maxresdefault (2).jpg");
+            padding-top: 80px;
+        }
+        p {
+            font-family: "Comic Sans MS";
+            color: rgb(0,0,255);
+        }
+        h2 {
+            color: rgb(255,255,255);
+        }
+        
+        
+        
+        .hovereffect {
+            width:80%;
+            height:40%;
+            float:left;
+            overflow:hidden;
+            position:relative;
+            text-align:center;
+            cursor:default;
+        }
+
+        .hovereffect .overlay {
+            width:100%;
+            height:100%;
+            position:absolute;
+            overflow:hidden;
+            top:0;
+            left:0;
+            opacity:0;
+            background-color:rgba(0,0,0,0.5);
+            -webkit-transition:all .4s ease-in-out;
+            transition:all .4s ease-in-out
+        }
+
+        .hovereffect img {
+            display:block;
+            position:relative;
+            -webkit-transition:all .4s linear;
+            transition:all .4s linear;
+        }
+
+        .hovereffect h2 {
+            text-transform:uppercase;
+            color:#fff;
+            text-align:center;
+            position:relative;
+            font-size:17px;
+            background:rgba(0,0,0,0.6);
+            -webkit-transform:translatey(-100px);
+            -ms-transform:translatey(-100px);
+            transform:translatey(-100px);
+            -webkit-transition:all .2s ease-in-out;
+            transition:all .2s ease-in-out;
+            padding:10px;
+        }
+
+        .hovereffect:hover img {
+            -ms-transform:scale(1.2);
+            -webkit-transform:scale(1.2);
+            transform:scale(1.2);
+        }
+        .hovereffect a.info {
+            text-decoration:none;
+            display:inline-block;
+            text-transform:uppercase;
+            color:#fff;
+            border:1px solid #fff;
+            background-color:transparent;
+            opacity:0;
+            filter:alpha(opacity=0);
+            -webkit-transition:all .2s ease-in-out;
+            transition:all .2s ease-in-out;
+            margin:50px 0 0;
+            padding:7px 14px;
+        }
+
+        .hovereffect a.info:hover {
+            box-shadow:0 0 5px #fff;
+        }
+
+        .hovereffect:hover .overlay {
+            opacity:1;
+            filter:alpha(opacity=100);
+        }
+
+        .hovereffect:hover h2,.hovereffect:hover a.info {
+            opacity:1;
+            filter:alpha(opacity=100);
+            -ms-transform:translatey(0);
+            -webkit-transform:translatey(0);
+            transform:translatey(0);
+        }
+
+        .hovereffect:hover a.info {
+            -webkit-transition-delay:.2s;
+            transition-delay:.2s;
+        }
+        .description {
+            color: #eee
+        }
+        .navbar {min-height: 80px;}
+        .navbar-brand {padding: 0 15px; height: 80px; line-height: 80px;}
+        #trailer .modal-dialog {
+            margin-top: 100px;
+            width: 800px;
+            height: 480px;
+            background-color: rgb(0,0,0);
+        }
+        .row {
+            background-color: rgb(0,0,0);
+        }
+        
+        .hanging-close {
+            position: absolute;
+            top: -12px;
+            right: -12px;
+            z-index: 9001;
+        }
+        #trailer-video {
+            width: 100%;
+            height: 100%;
+        }
+        .movie-tile {
+            margin-bottom: 20px;
+            padding-top: 50px;
+        }
+        
+        .scale-media {
+            padding-bottom: 56.25%;
+            position: relative;
+        }
+        .scale-media iframe {
+            border: none;
+            height: 100%;
+            position: absolute;
+            width: 100%;
+            left: 0;
+            top: 0;
+            background-color: white;
+        }
+    </style>
+    
+    <script type="text/javascript" charset="utf-8">
+
+        // Pause the video when the modal is closed
+        $(document).on('click', '.hanging-close, .modal-backdrop, .modal', function (event) {
+            // Remove the src so the player itself gets removed, as this is the only
+            // reliable way to ensure the video stops playing in IE
+            $("#trailer-video-container").empty();
+        });
+
+        // Start playing the video whenever the trailer modal is opened
+        $(document).on('click', '.movie-tile', function (event) {
+            var trailerYouTubeId = $(this).attr('data-trailer-youtube-id')
+            var sourceUrl = 'http://www.youtube.com/embed/' + trailerYouTubeId + '?autoplay=1&html5=1';
+            $("#trailer-video-container").empty().append($("<iframe></iframe>", {
+              'id': 'trailer-video',
+              'type': 'text-html',
+              'src': sourceUrl,
+              'frameborder': 0
+            }));
+
+            //Add movie information to the modal
+            var title = $(this).attr('data-title')
+            var lead_act_1 = $(this).attr('data-lead1')
+            var lead_act_2 = $(this).attr('data-lead2')
+            var lead_act_3 = $(this).attr('data-lead3')
+            var director = $(this).attr('data-director')
+            var storyline = $(this).attr('data-movie-storyline')
+            $("#actor-info").empty().append($("<div> <p><b>Directed by:- </b>"+director+".</p><p><b>Staring:-</b>  "+lead_act_1+", "+lead_act_2+", "+lead_act_3+".</p>"+"</div>"));
+            $("#this_title").empty().append($("<h2><b><i><u>"+title+"</u></i></b></h2>"));
+            $("#story").empty().append($("<div> <p><b>Story:- </b>"+storyline+".</p>"+"</div>"));
+        });
+
+        // Animate in the movies when the page loads
+        $(document).ready(function () {
+          $('.movie-tile').hide().first().show("fast", function showNext() {
+            $(this).next("div").show("fast", showNext);
+          });
+        });
+    </script>
+</head>
+
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+    <!-- Trailer Video Modal -->
+    <div class="modal" id="trailer">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <a href="#" class="hanging-close" data-dismiss="modal" aria-hidden="true">
+            <img src="https://lh5.ggpht.com/v4-628SilF0HtHuHdu5EzxD7WRqOrrTIDi_MhEG6_qkNtUK5Wg7KPkofp_VJoF7RS2LhxwEFCO1ICHZlc-o_=s0#w=24&h=24"/>
+          </a>
+
+          <div class="row">
+              <div class="col-md-11" id="this_title"></div>
+              <div class="col-md-11" id="actor-info"></div>
+          </div>
+
+          <div class="row">
+              <div class="col-md-11" id="story"></div>
+          </div>
+          
+          <div class="scale-media" id="trailer-video-container">
+          </div>
+        </div>
+      </div>
+    </div>
+   
+    
+
+    <!-- Main Page Content -->
+    <div class="container">
+        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#"><h1>MOVIE TRAILERS</h1></a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <div class="container">
+      
+<div class="col-md-6 col-lg-4 movie-tile text-center" data-trailer-youtube-id="2DMpqplvADQ" data-title="The Fate of the Furious" data-movie-storyline="Now that Dom (Vin Diesel) and Letty (Michelle Rodriguez) are on their honeymoon, Brian and Mia have retired from the game, and the rest of the crew has been exonerated, the globetrotting team has found a semblance of a normal life. But when a mysterious woman seduces Dom back into a world of crime that he can't seem to escape, the crew will face trials that will test them as never before." data-lead1="Vin Diesel" data-lead2="Dwayne Johnson" data-lead3="Jason Statham" data-director="F. Gary Gray" data-toggle="modal" data-target="#trailer">
+    <div class="hovereffect">
+      <img src="assets/TFOTF_Teaser_Poster.jpg" alt="Unable to show Poster" width="280" height="342">
+        <div class="overlay">
+          <h2><b><u><i> The Fate of the Furious </i></u></b></h2>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-6 col-lg-4 movie-tile text-center" data-trailer-youtube-id="kvjxoBG5euo" data-title="Jolly LLB2" data-movie-storyline="Set in Lucknow, Jolly LLB 2 is the story of the blunt, abrasive and yet oddly compassionate Jagdishwar Mishra, aka Jolly, a small-time, struggling lawyer who has moved from Kanpur to the city of Nawabs to pursue his dream of becoming a big-time lawyer. A hustler by nature, Jolly survives by fighting petty cases and using every tactic under the sun to make a quick buck and earn a decent living. Having spent years in the chaotic and dingy court corridors Jolly is looking out for an opportunity that could turn the tide in his favour and help him achieve his dream of becoming a full-fledged Lawyer with a chamber. When faced with the glimpse of such an opportunity, Jolly jumps at the chance and in the bargain commits an innocent mistake with irreversible consequences that makes him ready for a big fight with the ruthless advocate Mathur." data-lead1="Akshay Kumar, Huma Qureshi" data-lead2="Annu Kapoor, Sayani Gupta" data-lead3="Saurabh Shukla" data-director="Subhash Kapoor" data-toggle="modal" data-target="#trailer">
+    <div class="hovereffect">
+      <img src="assets/Jolly_LLB_2_first_look.jpg" alt="Unable to show Poster" width="280" height="342">
+        <div class="overlay">
+          <h2><b><u><i> Jolly LLB2 </i></u></b></h2>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-6 col-lg-4 movie-tile text-center" data-trailer-youtube-id="B-tC0wcIu24" data-title="Rangoon" data-movie-storyline="Rangoon is an upcoming Indian Hindi-language drama film, directed by Vishal Bhardwaj and produced by Sajid Nadiadwala and Viacom 18 Motion Pictures" data-lead1="Saif Ali Khan" data-lead2="Kangana Ranaut" data-lead3="Shahid Kapoor" data-director="Vishal Bhardwaj" data-toggle="modal" data-target="#trailer">
+    <div class="hovereffect">
+      <img src="assets/RangoonPoster.jpg" alt="Unable to show Poster" width="280" height="342">
+        <div class="overlay">
+          <h2><b><u><i> Rangoon </i></u></b></h2>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-6 col-lg-4 movie-tile text-center" data-trailer-youtube-id="RH3OxVFvTeg" data-title="Logan" data-movie-storyline="In the near future, a weary Logan cares for an ailing Professor X in a hide out on the Mexican border. But Logan's attempts to hide from the world and his legacy are up-ended when a young mutant arrives, being pursued by dark forces." data-lead1="Hugh Jackman" data-lead2="Patrick Stewart" data-lead3="Boyd Holbrook" data-director="James Mangold" data-toggle="modal" data-target="#trailer">
+    <div class="hovereffect">
+      <img src="assets/Logan_2017_poster.jpg" alt="Unable to show Poster" width="280" height="342">
+        <div class="overlay">
+          <h2><b><u><i> Logan </i></u></b></h2>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-6 col-lg-4 movie-tile text-center" data-trailer-youtube-id="7BWWWQzTpNU" data-title="Passengers" data-movie-storyline="On a routine journey through space to a new home, two passengers, sleeping in suspended animation, are awakened 90 years too early when their ship malfunctions. As Jim and Aurora face living the rest of their lives on board, with every luxury they could ever ask for, they begin to fall for each other, unable to deny their intense attraction... until they discover the ship is in grave danger. With the lives of 5000 sleeping passengers at stake, only Jim and Aurora can save them all." data-lead1="Jennifer Lawrence" data-lead2="Chris Pratt" data-lead3="Michael Sheen" data-director="Mortan Tyldum" data-toggle="modal" data-target="#trailer">
+    <div class="hovereffect">
+      <img src="assets/Passengers_2016_film_poster.jpg" alt="Unable to show Poster" width="280" height="342">
+        <div class="overlay">
+          <h2><b><u><i> Passengers </i></u></b></h2>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-6 col-lg-4 movie-tile text-center" data-trailer-youtube-id="J7_1MU3gDk0" data-title="Raees" data-movie-storyline="RAEES is the fictitious story of a man named Raees, set in early 1980's to 1990's Gujarat, India. The film explores how Raees' relationships and meteoric rise helped him build an entire empire from scratch, to make him the single most powerful man in the state. Less of a gangster but more of an impresario, Raees gains popularity, a cult following and most importantly the public's trust by demonstrating entrepreneurial flair, unfettered determination to achieving his goals and ironically a heart of gold. His layered character traits encapsulate an inimitable blend of personas, making him revered, loved and feared. Always thinking ahead of the curve and using revolutionary ideas of management which were unheard of during his time, but are now doctrines for students, Raees eliminates every opposition that comes his way. However, his downfall will be crossing paths with the no-nonsense police officer Majumdar, whose sole reason for existence is the elimination of crime. What ensues next is a tumultuous battle between the two, which forms a key defining element of the film's narrative." data-lead1="Shah Rukh Khan" data-lead2="Mahira Khan" data-lead3="Nawazuddin Siddiqui" data-director="Rahul Dholakia" data-toggle="modal" data-target="#trailer">
+    <div class="hovereffect">
+      <img src="assets/Raees_Poster.jpg" alt="Unable to show Poster" width="280" height="342">
+        <div class="overlay">
+          <h2><b><u><i> Raees </i></u></b></h2>
+        </div>
+    </div>
+</div>
+
+    </div>
+  </body>
+</html>
